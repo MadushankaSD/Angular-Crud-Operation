@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "new2Angular"
+    }
+  },
+  "defaultProject": "new2Angular",
+  "cli": {
+    "analytics": false
+  }
 }
