@@ -9,29 +9,30 @@
           </div>
           <!-- /.card-header -->
           <!-- form start -->
-          <form action="">
+          <form action="" [formGroup]="formName">
           <div class="card-body">
             <div class="form-group">
               <label for="txtId">Customer ID</label>
               <input
-                type="text" class="form-control" name="id" id="txtId" placeholder="Enter Customer ID">
+
+                type="text"  class="form-control" formControlName="id"  id="txtId" placeholder="Enter Customer ID">
             </div>
             <div class="form-group">
               <label for="txtName">Customer Name</label>
               <input
-                type="text" class="form-control" name="name" id="txtName" placeholder="Enter Customer Name">
+
+                type="text"  class="form-control" formControlName="name"  id="txtName" placeholder="Enter Customer Name">
             </div>
             <div class="form-group">
               <label
                 for="txtCustomerAddress">Customer Adddress</label>
-              <input type="text" class="form-control" name="address" id="txtCustomerAddress" placeholder="Enter Customer Address">
+              <input
+                type="text"  class="form-control" formControlName="address"  id="txtCustomerAddress" placeholder="Enter Customer Address">
             </div>
           </div>
-
           <!-- /.card-body -->
-
           <div class="card-footer">
-            <button type="submit" class="btn btn-primary" id="btnSubmit">Save</button>
+            <button (click)="saveCustomer()" type="submit" class="btn btn-primary" id="btnSubmit">Save</button>
             <button type="reset" class="btn btn-warning" id="btnClear">Clear</button>
           </div>
           </form>

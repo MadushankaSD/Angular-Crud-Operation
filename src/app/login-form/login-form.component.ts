@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
+import {Router} from "@angular/router"
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Http} from "@angular/http";
+
 
 
 @Component({
@@ -10,19 +11,23 @@ import {Http} from "@angular/http";
 })
 
 export class LoginFormComponent {
+  invalidLogin: boolean;
 
-  form = new FormGroup({
-    username: new FormControl("", [Validators.email, Validators.required]),
-    password: new FormControl("", Validators.required)
-  });
+  constructor(
+    private router: Router) { }
 
-  get username() {
-    return this.form.get('username');
+  signIn(val){
+    console.log(val);
+   /* this.authService.login(val)
+      .subscribe(result => {
+        if (result)
+          this.router.navigate(['/']);
+        else
+          this.invalidLogin = true;
+      });*/
   }
 
-  get password() {
-    return this.form.get('password');
+  forcusPassword() {
+
   }
-
-
 }
