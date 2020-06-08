@@ -14,26 +14,28 @@
             <div class="form-group">
               <label for="txtId">Customer ID</label>
               <input
-
+                [readonly]="tablelick"
+                [(ngModel)]="id"
                 type="text"  class="form-control" formControlName="id"  id="txtId" placeholder="Enter Customer ID">
             </div>
             <div class="form-group">
               <label for="txtName">Customer Name</label>
               <input
-
+                [(ngModel)]="name"
                 type="text"  class="form-control" formControlName="name"  id="txtName" placeholder="Enter Customer Name">
             </div>
             <div class="form-group">
               <label
                 for="txtCustomerAddress">Customer Adddress</label>
               <input
+                [(ngModel)]="address"
                 type="text"  class="form-control" formControlName="address"  id="txtCustomerAddress" placeholder="Enter Customer Address">
             </div>
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <button (click)="saveCustomer()" type="submit" class="btn btn-primary" id="btnSubmit">Save</button>
-            <button type="reset" class="btn btn-warning" id="btnClear">Clear</button>
+            <button (click)="saveCustomer()" type="submit" class="btn btn-primary" id="btnSubmit">{{save}}</button>
+            <button (click)="clearClick()" type="reset" class="btn btn-warning" id="btnClear">Clear</button>
           </div>
           </form>
         </div>
@@ -54,7 +56,7 @@
               </thead>
 
               <tbody *ngFor="let customer of customers">
-              <tr class="mouseChange">
+              <tr (click)="tableClick(customer)" class="mouseChange">
                 <td>{{customer.id}}</td>
                 <td>{{customer.name}}</td>
                 <td>{{customer.address}}</td>
