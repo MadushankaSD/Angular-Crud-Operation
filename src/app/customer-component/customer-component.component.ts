@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Headers, Http, RequestOptions} from "@angular/http";
 import {ActivatedRoute} from "@angular/router";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {webSocket} from "rxjs/webSocket";
+import {last} from "rxjs/operators";
 
 @Component({
   selector: 'app-customer-component',
@@ -14,16 +16,17 @@ id;
 name;
 address;
 
- number;
-
+number;
+pageno:number=0;
 save="Save";
-
- tablelick:boolean;
+tablelick:boolean;
+desableForword:boolean;
+desableBackword:boolean;
 
   formName = new FormGroup({
-    id:new FormControl(),
-    name:new FormControl(),
-    address:new FormControl(),
+    id:new FormControl("",Validators.required),
+    name:new FormControl("",Validators.required),
+    address:new FormControl("",Validators.required,)
   });
 
   customers:any[];
@@ -35,19 +38,34 @@ save="Save";
   }
 
   ngOnInit(): void {
-      this.http.get(this.url)
-        .subscribe(responce => {
-          this.customers= responce.json();
-        });
+      this.getcustomers(0,5);
   }
 
-  btnDeleteClick(customer) {
-    this.http.delete(this.url+'/'+customer.id)
-      .subscribe(val=>{
-        let number = this.customers.indexOf(customer);
-        this.customers.splice(number,1);
-        this.formName.reset();
+
+  getcustomers(ps,pe){
+    this.http.get(this.url,{params:{start:ps,end:pe}})
+      .subscribe(responce => {
+        this.customers= responce.json();
+        if(responce.json().length==0){
+          this.desableForword=true;
+        }else {
+        this.desableForword=false;
+        }
       });
+  }
+
+  btnDeleteClick($event,customer) {
+    $event.stopPropagation();
+    if (confirm("Do You Wish To Delete This Customer..!")) {
+      this.http.delete(this.url + '/' + customer.id)
+        .subscribe(val => {
+          let number = this.customers.indexOf(customer);
+          this.customers.splice(number, 1);
+          this.formName.reset();
+          this.tablelick = false;
+          this.save = "Save";
+        });
+    }
   }
 
   saveCustomer() {
@@ -82,5 +100,16 @@ save="Save";
   clearClick() {
     this.save="save"
     this.tablelick=false;
+  }
+
+  backwordClick() {
+
+    this.pageno==0?this.pageno:this.pageno--;
+    this.getcustomers(this.pageno,5)
+  }
+
+  forwordClick() {
+    this.pageno++;
+    this.getcustomers(this.pageno,5)
   }
 }
